@@ -8,7 +8,7 @@ class BlogDetailScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final String title = blog.title ?? 'No Title';
+    final String title = blog.title;
     final String imageUrl = blog.imageUrl ?? 'https://via.placeholder.com/150';
 
     return Scaffold(
