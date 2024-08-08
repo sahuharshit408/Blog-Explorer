@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import '../models/blog_model.dart';
 import '../screens/blog_detail_screen.dart';
 
-class FavoriteBlogItem extends StatelessWidget {
+class FavoriteBlogItem extends StatefulWidget {
   final Blog blog;
   final VoidCallback onTap;
 
@@ -12,6 +12,11 @@ class FavoriteBlogItem extends StatelessWidget {
     required this.onTap,
   });
 
+  @override
+  State<FavoriteBlogItem> createState() => _FavoriteBlogItemState();
+}
+
+class _FavoriteBlogItemState extends State<FavoriteBlogItem> {
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -26,17 +31,25 @@ class FavoriteBlogItem extends StatelessWidget {
           color: Theme.of(context).cardColor, // Use the theme's card color
         ),
         child: InkWell(
-          onTap: onTap,
+          onTap: () {
+            widget.onTap();
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => BlogDetailScreen(blog: widget.blog),
+              ),
+            );
+          },
           child: Row(
             children: [
-              if (blog.imageUrl != null)
+              if (widget.blog.imageUrl != null)
                 ClipRRect(
                   borderRadius: const BorderRadius.only(
                     topLeft: Radius.circular(16.0),
                     bottomLeft: Radius.circular(16.0),
                   ),
                   child: Image.network(
-                    blog.imageUrl!,
+                    widget.blog.imageUrl!,
                     width: 100,
                     height: 100,
                     fit: BoxFit.cover,
@@ -50,7 +63,7 @@ class FavoriteBlogItem extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        blog.title,
+                        widget.blog.title,
                         style: Theme.of(context).textTheme.bodyLarge, // Use the theme's bodyText1 style
                       ),
                     ],
